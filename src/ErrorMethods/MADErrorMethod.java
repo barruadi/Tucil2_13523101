@@ -27,7 +27,7 @@ public class MADErrorMethod implements _ErrorMethod{
         double mean_B = sum_B / (double) total_pixels;
         
 
-        // -----------------Variansi setiap kanal warna-----------------
+        // -----------------MAD setiap kanal warna-----------------
         for (int i = x; i < x + width; i++) {
             for (int j = y; j < y + height; j++) {
                 Color color = new Color(image.getRGB(i, j));
@@ -41,9 +41,9 @@ public class MADErrorMethod implements _ErrorMethod{
         mad_G /= total_pixels;
         mad_B /= total_pixels;
 
-        //-----------------Variansi total-----------------
-        double totalvariance = (mad_R + mad_G + mad_B) / 3.0;
+        //-----------------MAD total-----------------
+        double total_mad = (mad_R + mad_G + mad_B) / 3.0;
 
-        return totalvariance;
+        return total_mad;
     }
 }
