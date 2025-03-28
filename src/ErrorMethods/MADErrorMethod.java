@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 public class MADErrorMethod implements _ErrorMethod{
     @Override
     public double calculateErr(BufferedImage image, int x, int y, int width, int height) {
+        //---------------Initialisasi------------------
         int total_pixels = width * height;
         long sum_R = 0;  double mad_R = 0; 
         long sum_G = 0;  double mad_G = 0; 

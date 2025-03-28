@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 public class VarianceErrorMethod implements _ErrorMethod {
     @Override
     public double calculateErr(BufferedImage image, int x, int y, int width, int height) {
+        //---------------Initialisasi------------------
         int total_pixels = width * height;
         long sum_R = 0;  double var_R = 0; 
         long sum_G = 0;  double var_G = 0; 
@@ -20,6 +21,7 @@ public class VarianceErrorMethod implements _ErrorMethod {
                 sum_B += color.getBlue();
             }
         }
+
 
         //---------------Rata" Pixel dalam satu block--------------------
         double mean_R = sum_R / (double) total_pixels;
@@ -41,9 +43,10 @@ public class VarianceErrorMethod implements _ErrorMethod {
         var_G /= total_pixels;
         var_B /= total_pixels;
 
+        
         //-----------------Variansi total-----------------
-        double totalvariance = (var_R + var_G + var_B) / 3.0;
+        double total_variance = (var_R + var_G + var_B) / 3.0;
 
-        return totalvariance;
+        return total_variance;
     }
 }
