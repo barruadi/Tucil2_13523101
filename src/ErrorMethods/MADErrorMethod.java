@@ -32,9 +32,9 @@ public class MADErrorMethod implements _ErrorMethod{
         for (int i = x; i < x + width; i++) {
             for (int j = y; j < y + height; j++) {
                 Color color = new Color(image.getRGB(i, j));
-                mad_R = Math.abs(color.getRed() - mean_R);
-                mad_G = Math.abs(color.getGreen() - mean_G);
-                mad_B = Math.abs(color.getBlue() - mean_B);
+                mad_R += Math.abs(color.getRed() - mean_R);
+                mad_G += Math.abs(color.getGreen() - mean_G);
+                mad_B += Math.abs(color.getBlue() - mean_B);
             }
         }
 
