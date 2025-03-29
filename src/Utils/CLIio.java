@@ -24,6 +24,9 @@ public class CLIio {
 
     //--------------------OUTPUT--------------------
     private String          output_path;
+    private double          output_file_size_before;
+    private double          output_file_size_after;
+    private double          output_compression_percentage;
 
     //-------------------help(me)-------------------
     private final boolean   INPUT_VALIDATION        = true;
@@ -134,7 +137,6 @@ public class CLIio {
         }
         
 
-
         //--------------------ALAMAT OUTPUT---------------------------
         System.out.print("Path output: ");
         String output_filename = scanner.nextLine();
@@ -144,26 +146,27 @@ public class CLIio {
         return;
     }
 
-    public void cliOutput() {
+    public void cliOutput(long executionTime) {
         // WAKTU EKSEKUSI
-
+        System.out.println("Waktu eksekusi: " + executionTime + " ms");
 
         // UKURAN GAMBAR SEBELUM
-
+        output_file_size_before = Utils.getFileSizeKb(new File(getInputPath()));
+        System.out.println("Ukuran gambar sebelum: " + output_file_size_before);
 
         // UKURAN GAMBAR SESUDAH
-
+        output_file_size_after = Utils.getFileSizeKb(new File(getOutputPath()));
+        System.out.println("Ukuran gambar sesudah: " + output_file_size_after);
 
         // PRESENTASE KOMPRESI
-
+        output_compression_percentage = 
+            (1 - (double) output_file_size_after / output_file_size_before) * 100;
+        System.out.println("Presentase kompresi: " + output_compression_percentage);
 
         // KEDALAMAN POHON
 
 
         // BANYAK SIMPUL
-
-
-        // OUTPUT GAMBAR
 
 
         // [ BONUS ] GIF KOMPRESI
@@ -181,6 +184,10 @@ public class CLIio {
     //----------------- GETTER ------------------
     public BufferedImage getImage() {
         return image;
+    }
+
+    public String getInputPath() {
+        return input_path;
     }
 
     public Integer getInputMethod() {

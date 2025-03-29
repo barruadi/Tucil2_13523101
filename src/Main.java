@@ -16,6 +16,7 @@ public class Main {
             CLIio cli = new CLIio();
             cli.cliInput();
             
+            long startTime = System.currentTimeMillis();            // Start Timer
             
             // ------------- PROSES -------------
             BufferedImage image = cli.getImage();
@@ -33,14 +34,17 @@ public class Main {
             );
             tree.reconstructImage(outputImage);
 
+            long endTime = System.currentTimeMillis();              // End Timer
+
             
             // ------------- OUTPUT -------------
             ImageIO.write(outputImage, "png", new File(cli.getOutputPath()));
 
+            cli.cliOutput(endTime - startTime);
+
         } catch (IOException e) {
-            System.out.println("ERR:" + e);
+            System.out.println("ERR: " + e);
             return;
         }
-
     }
 }
