@@ -30,6 +30,8 @@ public class CLIio {
 
     //-------------------help(me)-------------------
     private final boolean   INPUT_VALIDATION        = true;
+    private final boolean   INPUT_PATH_ABSOLUTE     = true;  // for test n debug
+    private final boolean   OUTPUT_PATH_ABSOLUTE    = true;  // for test n debug
     private final boolean   BONUS_TARGET_KOMPRESI   = false; // [ BONUS ] target kompresi
 
 
@@ -51,7 +53,11 @@ public class CLIio {
             input_filename = scanner.nextLine();
         }
         // read image
-        input_path = "test/input/" + input_filename + ".png";
+        if (INPUT_PATH_ABSOLUTE) {
+            input_path = input_filename;
+        } else {
+            input_path = "test/input/" + input_filename;
+        }
         image = ImageIO.read(new File(input_path));
 
 
@@ -82,10 +88,10 @@ public class CLIio {
             try {
                 num = format.parse(input);
                 input_threshold = num.floatValue();
-                if (input_threshold < 0 || input_threshold > 1) {       // threshold tidak valid
-                    System.out.println("ERR: Threshold tidak valid");
-                    continue;
-                }
+                // if (input_threshold < 0 || input_threshold > 1) {       // threshold tidak valid
+                //     System.out.println("ERR: Threshold tidak valid");
+                //     continue;
+                // }
                 break;
                 
             } catch (ParseException e) {                         // tipe data tidak betul
@@ -138,15 +144,26 @@ public class CLIio {
         
 
         //--------------------ALAMAT OUTPUT---------------------------
-        System.out.print("Path output: ");
-        String output_filename = scanner.nextLine();
-        output_path = "test/output/" + output_filename + ".png";
+        while (INPUT_VALIDATION) {
+            System.out.print("Path output: ");
+            input = scanner.nextLine();
+            if (OUTPUT_PATH_ABSOLUTE) {
+                output_path = input;
+                if (!dirExits(output_path)) {                       // direktori tidak valid
+                    System.out.println("ERR: Direktori tidak ditemukan");
+                    continue;
+                }
+            } else {
+                output_path = "test/output/" + input;
+            }
+            break;
+        }
 
         scanner.close();
         return;
     }
 
-    public void cliOutput(long executionTime) {
+    public void cliOutput(long executionTime, int treeDepth, int totalNode) {
         // WAKTU EKSEKUSI
         System.out.println("Waktu eksekusi: " + executionTime + " ms");
 
@@ -164,10 +181,10 @@ public class CLIio {
         System.out.println("Presentase kompresi: " + output_compression_percentage);
 
         // KEDALAMAN POHON
+        System.out.println("Kedalaman pohon: " + treeDepth);
 
-
-        // BANYAK SIMPUL
-
+        // BANYAK SIMPUL1
+        System.out.println("Banyak simpul: " + totalNode);
 
         // [ BONUS ] GIF KOMPRESI
 
@@ -177,8 +194,25 @@ public class CLIio {
 
     //----------------- HELPER ------------------
     public boolean fileExist(String filename) {
-        return new File("test/input/" + filename + ".png").isFile();
+        if (INPUT_PATH_ABSOLUTE) {
+            File file = new File(filename);
+            return file.isFile();
+        }
+        return new File("test/input/" + filename).isFile();
     };
+
+    public String getFileExtension() {
+        int dotIndex = input_path.lastIndexOf(".");
+        if (dotIndex != -1 && dotIndex < input_path.length() - 1) {
+            return input_path.substring(dotIndex + 1).toLowerCase();
+        }
+        return null;
+    }
+
+    public boolean dirExits(String path) {
+        File file = new File(path);
+        return file.exists() && file.isDirectory();
+    }
 
 
     //----------------- GETTER ------------------

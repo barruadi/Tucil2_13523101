@@ -12,10 +12,10 @@ public class EntropyErrorMethod implements _ErrorMethod {
         int[] probability_G = new int[256]; double entropy_G = 0;
         int[] probability_B = new int[256]; double entropy_B = 0;
 
-        
+
         //---------------Hitung probabilitas------------------
-        for (int i = x; i < x + width; i++) {
-            for (int j = y; j < y + height; j++) {
+        for (int i = x; i <= x + width; i++) {
+            for (int j = y; j <= y + height; j++) {
                 Color color = new Color(image.getRGB(i, j));
                 probability_R[color.getRed()]++;
                 probability_G[color.getGreen()]++;

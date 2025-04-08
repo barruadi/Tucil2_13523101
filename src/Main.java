@@ -33,14 +33,21 @@ public class Main {
                 BufferedImage.TYPE_INT_RGB
             );
             tree.reconstructImage(outputImage);
-
+            int treeDepth = tree.calculateDepth();
+            int totalNode = tree.getTotalNode();
+            
             long endTime = System.currentTimeMillis();              // End Timer
 
             
             // ------------- OUTPUT -------------
-            ImageIO.write(outputImage, "png", new File(cli.getOutputPath()));
+            String fileExtension = cli.getFileExtension();
+            ImageIO.write(outputImage, fileExtension, new File(cli.getOutputPath()));
 
-            cli.cliOutput(endTime - startTime);
+            cli.cliOutput(
+                endTime - startTime,
+                treeDepth, 
+                totalNode
+            );
 
         } catch (IOException e) {
             System.out.println("ERR: " + e);

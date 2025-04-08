@@ -13,8 +13,11 @@ public class VarianceErrorMethod implements _ErrorMethod {
         long sum_B = 0;  double var_B = 0;
 
         //---------------jumlah pixel dalmm satu blok------------------
-        for (int i = x; i < x + width; i++) {
-            for (int j = y; j < y + height; j++) {
+        for (int i = x; i <= x + width; i++) {
+            for (int j = y; j <= y + height; j++) {
+                if (i < 0 || i >= image.getWidth() || j < 0 || j >= image.getHeight()) {
+                    continue;
+                }
                 Color color = new Color(image.getRGB(i, j));
                 sum_R += color.getRed();
                 sum_G += color.getGreen();
@@ -30,8 +33,11 @@ public class VarianceErrorMethod implements _ErrorMethod {
         
 
         // -----------------Variansi setiap kanal warna-----------------
-        for (int i = x; i < x + width; i++) {
-            for (int j = y; j < y + height; j++) {
+        for (int i = x; i <= x + width; i++) {
+            for (int j = y; j <= y + height; j++) {
+                if (i < 0 || i >= image.getWidth() || j < 0 || j >= image.getHeight()) {
+                    continue;
+                }
                 Color color = new Color(image.getRGB(i, j));
                 var_R += Math.pow(color.getRed() - mean_R, 2);
                 var_G += Math.pow(color.getGreen() - mean_G, 2);
@@ -43,7 +49,7 @@ public class VarianceErrorMethod implements _ErrorMethod {
         var_G /= total_pixels;
         var_B /= total_pixels;
 
-        
+
         //-----------------Variansi total-----------------
         double total_variance = (var_R + var_G + var_B) / 3.0;
 

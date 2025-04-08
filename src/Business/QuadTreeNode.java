@@ -30,8 +30,16 @@ public class QuadTreeNode {
         this.isLeafNode = false;
 
         children = new QuadTreeNode[4];
+        total_node++;
     }
 
+    public static void resetNodeCounter() {
+        total_node = 0;
+    }
+
+    public int getTotalNode() {
+        return total_node;
+    }
 
     public void makeQuadTreeNode(float threshold, int errorMethod, int minBlockSize) {
         double error = calculateErrorQuadTreeNode(errorMethod);
@@ -41,16 +49,38 @@ public class QuadTreeNode {
             calculateAvgRGB();
         } else {
             // branch to 4 child
-            children[0] = new QuadTreeNode(image, x, y, width / 2, height / 2);
+            int first_height, second_height;
+            if (height % 2 == 1) {
+                first_height = (height / 2) + 1;
+                second_height = height - first_height;
+            } else {
+                first_height = height / 2;
+                second_height = height / 2;
+            }
+
+            int first_width, second_width;
+            if (width % 2 == 1) {
+                first_width = (width / 2) + 1;    
+                second_width = width - first_width;
+            } else {
+                first_width = width / 2;
+                second_width = width / 2;
+            }
+
+            // upper left
+            children[0] = new QuadTreeNode(image, x, y, first_width, first_height);
             children[0].makeQuadTreeNode(threshold, errorMethod, minBlockSize);
 
-            children[1] = new QuadTreeNode(image, x + width / 2, y, width / 2, height / 2);
+            // upper right
+            children[1] = new QuadTreeNode(image, x + first_width, y, second_width, first_height);
             children[1].makeQuadTreeNode(threshold, errorMethod, minBlockSize);
 
-            children[2] = new QuadTreeNode(image, x, y + height / 2, width / 2, height / 2);
+            // down left
+            children[2] = new QuadTreeNode(image, x, y + first_height, first_width, second_height);
             children[2].makeQuadTreeNode(threshold, errorMethod, minBlockSize);
 
-            children[3] = new QuadTreeNode(image, x + width / 2, y + height / 2, width / 2, height / 2);
+            // down right
+            children[3] = new QuadTreeNode(image, x + first_width, y + first_height, second_width, second_height);
             children[3].makeQuadTreeNode(threshold, errorMethod, minBlockSize);
         }
     }
@@ -134,6 +164,18 @@ public class QuadTreeNode {
             this.children[1].reconstructImage(outputImage);
             this.children[2].reconstructImage(outputImage);
             this.children[3].reconstructImage(outputImage);
+        }
+    }
+
+    public int calculateDepth() {
+        if (isLeafNode) {
+            return 0;
+        } else {
+            int maxDepth = 0;
+            for (QuadTreeNode child : children) {
+                maxDepth = Math.max(maxDepth, child.calculateDepth());
+            }
+            return maxDepth + 1;
         }
     }
 }
