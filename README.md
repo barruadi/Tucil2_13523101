@@ -35,16 +35,10 @@ src/
 
 ## Cara Menjalankan Program
 
-### ✅ 1. Kompilasi Program
+### ✅ Jalankan ./run.bat
 
 ```bash
-javac -d out $(find src -name "*.java")
-
-```
-### ✅ 2. Jalankan Program
-
-```bash
-java -cp out Main
+./run.bat
 ```
 
 ## Requirements

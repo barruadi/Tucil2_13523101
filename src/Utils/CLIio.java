@@ -45,12 +45,12 @@ public class CLIio {
         NumberFormat format = NumberFormat.getInstance(userLocale);
 
         //--------------------ALAMAT ABSOLUT--------------------
-        System.out.print("Path gambar: ");
+        System.out.print("Path gambar: (absolute path) ");
         String input_filename = scanner.nextLine();
         
         while (!fileExist(input_filename)) {                       // file tidak valid
             System.out.println("ERR: File tidak ditemukan");
-            System.out.print("Path gambar: ");
+            System.out.print("Path gambar (absolute path): ");
             input_filename = scanner.nextLine();
         }
         // read image
@@ -65,6 +65,10 @@ public class CLIio {
         //--------------------METODE PERHITUNGAN--------------------
         // 1. Variance 2. MAD 3. MPD 4. Entropy
         while (INPUT_VALIDATION) {
+            System.out.println("1. Variance");
+            System.out.println("2. MAD");
+            System.out.println("3. MPD");
+            System.out.println("4. Entropy");
             System.out.print("Metode perhitungan: ");
             input = scanner.nextLine();
             try {
@@ -84,15 +88,17 @@ public class CLIio {
 
         //--------------------TRESHOLD--------------------
         while (INPUT_VALIDATION) {
+            System.out.println("Max threshold: " + getMaxThreshold());
             System.out.print("Threshold: ");
             input = scanner.nextLine();
             try {
                 num = format.parse(input);
                 input_threshold = num.floatValue();
-                // if (input_threshold < 0 || input_threshold > 1) {       // threshold tidak valid
-                //     System.out.println("ERR: Threshold tidak valid");
-                //     continue;
-                // }
+                float maxThreshold = getMaxThreshold();
+                if (input_threshold < 0 || input_threshold > maxThreshold) {       // threshold tidak valid
+                    System.out.println("ERR: Threshold tidak valid");
+                    continue;
+                }
                 break;
                 
             } catch (ParseException e) {                         // tipe data tidak betul
@@ -151,7 +157,7 @@ public class CLIio {
 
         //--------------------ALAMAT OUTPUT---------------------------
         while (INPUT_VALIDATION) {
-            System.out.print("Path output: ");
+            System.out.print("Path output (absolute path): ");
             input = scanner.nextLine();
             if (OUTPUT_PATH_ABSOLUTE) {
                 output_path = input;
