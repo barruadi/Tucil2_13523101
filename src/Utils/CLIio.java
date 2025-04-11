@@ -33,6 +33,7 @@ public class CLIio {
     private final boolean   INPUT_PATH_ABSOLUTE     = true;  // for test n debug
     private final boolean   OUTPUT_PATH_ABSOLUTE    = true;  // for test n debug
     private final boolean   BONUS_TARGET_KOMPRESI   = false; // [ BONUS ] target kompresi
+    private       boolean   TARGET_KOMPRESI         = false;
 
 
     public void cliInput() throws IOException {
@@ -68,7 +69,7 @@ public class CLIio {
             input = scanner.nextLine();
             try {
                 input_method = Integer.parseInt(input);
-                if (input_method < 1 || input_method > 4) {             // metode tidak valid
+                if (input_method < 1 || input_method > 5) {             // metode tidak valid
                     System.out.println("ERR: Metode tidak valid");
                     continue;
                 }
@@ -132,6 +133,11 @@ public class CLIio {
                     if (input_target_compression < 0 || input_target_compression > 1) { // target kompresi tidak valid
                         System.out.println("ERR: Target presentase kompresi tidak valid");
                         continue;
+                    }
+                    if (input_target_compression == 0) {
+                        TARGET_KOMPRESI = false;
+                    } else {
+                        TARGET_KOMPRESI = true;
                     }
                     break;
                     
@@ -214,6 +220,21 @@ public class CLIio {
         return file.exists() && file.isDirectory();
     }
 
+    public float getMaxThreshold() {
+        if (input_method == 1) { // Variance
+            return 16256.25f;
+        } else if (input_method == 2) { // MAD
+            return 127.5f;
+        } else if (input_method == 3) { // MPD
+            return 255.0f;
+        } else if (input_method == 4) { // Entropy
+            return 8.0f;
+        } else if (input_method == 5) { // SSIM
+            return 1.0f;
+        }
+        return 0;
+    }
+
 
     //----------------- GETTER ------------------
     public BufferedImage getImage() {
@@ -242,5 +263,9 @@ public class CLIio {
 
     public String getOutputPath() {
         return output_path;
+    }
+
+    public boolean getTargetKompresiStatus() {
+        return TARGET_KOMPRESI;
     }
 }
