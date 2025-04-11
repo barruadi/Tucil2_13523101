@@ -119,6 +119,13 @@ public class QuadTreeNode {
                     this.image, this.x, this.y, this.width, this.height
                 );
                 return error;
+
+            case 5:
+                method = new SSIMErrorMathod();
+                error = method.calculateErr(
+                    this.image, this.x, this.y, this.width, this.height
+                );
+                return error;
         
             default:               // error
                 return 0.0;

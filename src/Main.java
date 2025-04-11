@@ -20,6 +20,8 @@ public class Main {
             
             // ------------- PROSES -------------
             BufferedImage image = cli.getImage();
+
+            
             ImageTree tree = new ImageTree(
                 image, 
                 cli.getInputThreshold(), 
