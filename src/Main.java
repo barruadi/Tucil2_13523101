@@ -13,8 +13,10 @@ public class Main {
         Utils.clearScreen();
         try {
             // ------------- INITILIZE -------------
-            ImageTree tree;
-            BufferedImage outputImage;
+            ImageTree       tree;
+            BufferedImage   outputImage;
+            int             treeDepth;
+            int             totalNode;
 
             // ------------- iNPUT -------------
             CLIio cli = new CLIio();
@@ -50,8 +52,13 @@ public class Main {
                     double output_compression_percentage = (1 - (double) output_file_size_after / output_file_size_before) * 100;
 
                     if (Math.abs(output_compression_percentage - cli.getInputTargetCompression()) < 0.01) {
+                        treeDepth = tree.calculateDepth();
+                        totalNode = tree.getTotalNode();
                         break;
                     } else if (Math.abs(maxThreshold - minThreshold) < 0.01) {
+                        System.out.println("ERR: Target compression not achieved");
+                        treeDepth = tree.calculateDepth();
+                        totalNode = tree.getTotalNode();
                         break;
                     }
 
@@ -82,14 +89,13 @@ public class Main {
                     BufferedImage.TYPE_INT_RGB
                 );
                 tree.reconstructImage(outputImage);
-                
+                treeDepth = tree.calculateDepth();
+                totalNode = tree.getTotalNode();
+
                 String fileExtension = cli.getFileExtension();
                 ImageIO.write(outputImage, fileExtension, new File(cli.getOutputPath()));
             }
 
-
-            int treeDepth = tree.calculateDepth();
-            int totalNode = tree.getTotalNode();
             
             long endTime = System.currentTimeMillis();              // End Timer
 

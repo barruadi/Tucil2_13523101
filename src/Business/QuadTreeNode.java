@@ -1,5 +1,11 @@
 package Business;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
@@ -18,7 +24,10 @@ public class QuadTreeNode {
     
     QuadTreeNode[] children;
     
-    static public int total_node = 0;
+    static public  int total_node  = 0;
+    static private int frame_count = 0;
+    static private int level       = 0;
+    public static List<BufferedImage> gifFrames = new ArrayList<>();
 
     //-------------------------CONSTUCTOR-------------------------
     public QuadTreeNode(BufferedImage image, int x, int y, int width, int height) {
@@ -43,10 +52,10 @@ public class QuadTreeNode {
 
     public void makeQuadTreeNode(float threshold, int errorMethod, int minBlockSize) {
         double error = calculateErrorQuadTreeNode(errorMethod);
+        calculateAvgRGB();
         if ( error <= threshold || (width * height) <= minBlockSize) {
             this.isLeafNode = true;
-            // set color value
-            calculateAvgRGB();
+            
         } else {
             // branch to 4 child
             int first_height, second_height;
@@ -184,5 +193,16 @@ public class QuadTreeNode {
             }
             return maxDepth + 1;
         }
+    }
+
+    //--------------------GIF MAKE------------------------
+    public void drawFrame(BufferedImage outputImage) {
+        BufferedImage frame = new BufferedImage(outputImage.getWidth(), outputImage.getHeight(), BufferedImage.TYPE_INT_RGB);
+        for (int i = 0; i < outputImage.getWidth(); i++) {
+            for (int j = 0; j < outputImage.getHeight(); j++) {
+                frame.setRGB(i, j, outputImage.getRGB(i, j));
+            }
+        }
+        gifFrames.add(frame);
     }
 }

@@ -32,7 +32,7 @@ public class CLIio {
     private final boolean   INPUT_VALIDATION        = true;
     private final boolean   INPUT_PATH_ABSOLUTE     = true;  // for test n debug
     private final boolean   OUTPUT_PATH_ABSOLUTE    = true;  // for test n debug
-    private final boolean   BONUS_TARGET_KOMPRESI   = false; // [ BONUS ] target kompresi
+    private final boolean   BONUS_TARGET_KOMPRESI   = true; // [ BONUS ] target kompresi
     private       boolean   TARGET_KOMPRESI         = false;
 
 
@@ -155,7 +155,9 @@ public class CLIio {
             input = scanner.nextLine();
             if (OUTPUT_PATH_ABSOLUTE) {
                 output_path = input;
-                if (!dirExits(output_path)) {                       // direktori tidak valid
+                File file = new File(output_path);
+                String directory = file.getParent();
+                if (!dirExits(directory)) {                       // direktori tidak valid
                     System.out.println("ERR: Direktori tidak ditemukan");
                     continue;
                 }

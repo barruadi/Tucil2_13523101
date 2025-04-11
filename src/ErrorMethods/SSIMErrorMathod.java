@@ -14,6 +14,9 @@ public class SSIMErrorMathod implements _ErrorMethod {
         // First pass: compute means
         for (int i = x; i < x + width; i++) {
             for (int j = y; j < y + height; j++) {
+                if (i < 0 || i >= image.getWidth() || j < 0 || j >= image.getHeight()) {
+                    continue;
+                }
                 Color c = new Color(image.getRGB(i, j));
                 meanR += c.getRed();
                 meanG += c.getGreen();
@@ -26,9 +29,11 @@ public class SSIMErrorMathod implements _ErrorMethod {
 
         double varR = 0, varG = 0, varB = 0;
 
-        // Second pass: compute variances
         for (int i = x; i < x + width; i++) {
             for (int j = y; j < y + height; j++) {
+                if (i < 0 || i >= image.getWidth() || j < 0 || j >= image.getHeight()) {
+                    continue;
+                }
                 Color c = new Color(image.getRGB(i, j));
                 varR += Math.pow(c.getRed() - meanR, 2);
                 varG += Math.pow(c.getGreen() - meanG, 2);
@@ -49,6 +54,6 @@ public class SSIMErrorMathod implements _ErrorMethod {
         // average SSIM
         double avgSSIM = (ssimR + ssimG + ssimB) / 3.0;
 
-        return 1.0 - avgSSIM;  // lower error is better
+        return avgSSIM;
     }
 }

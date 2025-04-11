@@ -16,6 +16,9 @@ public class EntropyErrorMethod implements _ErrorMethod {
         //---------------Hitung probabilitas------------------
         for (int i = x; i <= x + width; i++) {
             for (int j = y; j <= y + height; j++) {
+                if (i < 0 || i >= image.getWidth() || j < 0 || j >= image.getHeight()) {
+                    continue;
+                }
                 Color color = new Color(image.getRGB(i, j));
                 probability_R[color.getRed()]++;
                 probability_G[color.getGreen()]++;

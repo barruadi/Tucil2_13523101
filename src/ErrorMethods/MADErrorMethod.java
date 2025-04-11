@@ -15,6 +15,9 @@ public class MADErrorMethod implements _ErrorMethod{
         //---------------jumlah pixel dalmm satu blok------------------
         for (int i = x; i <= x + width; i++) {
             for (int j = y; j <= y + height; j++) {
+                if (i < 0 || i >= image.getWidth() || j < 0 || j >= image.getHeight()) {
+                    continue;
+                }
                 Color color = new Color(image.getRGB(i, j));
                 sum_R += color.getRed();
                 sum_G += color.getGreen();
@@ -31,6 +34,9 @@ public class MADErrorMethod implements _ErrorMethod{
         // -----------------MAD setiap kanal warna-----------------
         for (int i = x; i <= x + width; i++) {
             for (int j = y; j <= y + height; j++) {
+                if (i < 0 || i >= image.getWidth() || j < 0 || j >= image.getHeight()) {
+                    continue;
+                }
                 Color color = new Color(image.getRGB(i, j));
                 mad_R += Math.abs(color.getRed() - mean_R);
                 mad_G += Math.abs(color.getGreen() - mean_G);

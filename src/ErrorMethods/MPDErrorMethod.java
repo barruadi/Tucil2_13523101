@@ -15,6 +15,9 @@ public class MPDErrorMethod implements _ErrorMethod {
         //---------------Milai Max dan Min------------------
         for (int i = x; i <= x + width; i++) {
             for (int j = y; j <= y + height; j++){
+                if (i < 0 || i >= image.getWidth() || j < 0 || j >= image.getHeight()) {
+                    continue;
+                }
                 Color color = new Color(image.getRGB(i, j));
 
                 // cari max
